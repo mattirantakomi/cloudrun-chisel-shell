@@ -2,5 +2,4 @@ version: "2.1"
 services:
   chisel:
     build: .
-    # image: "mattirantakomi/ubuntu-22.04:latest"
     image: europe-north1-docker.pkg.dev/testailua-223315/testi/cloudrun-chisel-shell:latest
