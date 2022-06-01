@@ -1,3 +1,6 @@
+# Google Cloud Run SSH Shell access
+
+## Image
 Replace image address `europe-north1-docker.pkg.dev/testailua-223315/testi/cloudrun-chisel-shell:latest` with your own Google Artifact Registry Docker Repository address on `docker-compose.yaml` and accordingly on the following `gcloud` command.
 
 Build & Push Image to Google Artifact Registry Docker Repository
@@ -6,6 +9,7 @@ docker-compose build
 docker-compose push
 ```
 
+## Service
 Create Cloud Run Service
 ```
 gcloud alpha run deploy cloudrun-chisel-shell \
@@ -22,6 +26,7 @@ gcloud alpha run deploy cloudrun-chisel-shell \
    --region europe-north1
 ```
 
+## Chisel
 Install Chisel on your own computer
 ```
 sudo wget -O - https://github.com/jpillora/chisel/releases/download/v1.7.7/chisel_1.7.7_linux_amd64.gz | \
@@ -29,6 +34,7 @@ gunzip - > /usr/local/bin/chisel
 chmod +x /usr/local/bin/chisel
 ```
 
+## SSH connection
 SSH to Cloud Run shell through Chisel
 ```
 ssh -o StrictHostKeyChecking=no -o ProxyCommand="chisel client --auth user:passw0rd https://cloudrun-chisel-shell-xyz-lz.a.run.app stdio:localhost:2222" root@localhost
