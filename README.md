@@ -29,9 +29,9 @@ gcloud alpha run deploy cloudrun-chisel-shell \
 ## Chisel
 Install Chisel on your own computer
 ```
-sudo wget -O - https://github.com/jpillora/chisel/releases/download/v1.7.7/chisel_1.7.7_linux_amd64.gz | \
-gunzip - > /usr/local/bin/chisel
-chmod +x /usr/local/bin/chisel
+wget -O - https://github.com/jpillora/chisel/releases/download/v1.7.7/chisel_1.7.7_linux_amd64.gz | \
+sudo gunzip - > /usr/local/bin/chisel
+sudo chmod +x /usr/local/bin/chisel
 ```
 
 ## SSH connection
