@@ -40,9 +40,16 @@ fi
 /usr/sbin/dropbear -j -k -s -p 2222 -E
 echo "dropbear started"
 
+PROJECT_ID=$(curl -s "http://metadata.google.internal/computeMetadata/v1/project/project-id" -H "Metadata-Flavor: Google")
+REGION=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/region" -H "Metadata-Flavor: Google" | sed "s/.*\///")
+TOKEN=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google" | jq -r '.access_token')
+PUBLIC_URL=$(curl -s "https://${REGION}-run.googleapis.com/apis/serving.knative.dev/v1/namespaces/${PROJECT_ID}/services/${K_SERVICE}" -H "Authorization: Bearer ${TOKEN}" | jq -r '.status.url')
+
 echo "Connect with ssh using the following command:"
 echo
-echo "ssh -o ProxyCommand='chisel client --auth ${CHISEL_USER}:${CHISEL_PASS} PUBLIC_URL stdio:localhost:2222' root@localhost"
+echo "ssh -o ProxyCommand='chisel client --auth ${CHISEL_USER}:${CHISEL_PASS} ${PUBLIC_URL} stdio:localhost:2222' root@localhost"
+
+while true; do curl -s -A "ping-pong" --output /dev/null --connect-timeout 5 ${PUBLIC_URL} || true; sleep 5; done &
 
 while true; do
   set +e
